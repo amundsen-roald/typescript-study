@@ -506,7 +506,7 @@ function reverse(x: number | string): number | string {
  */
 // 例子：将一个联合类型的变量指定为一个更加具体的类型
 // 之前提过：当TS不确定一个联合类型的变量到底是哪种类型时，我们只能访问它们共有的属性和方法
-function test(something: number | string): number | string {
+function test(something: number | string): number {
 	return something.length // 报错，因为length不是number和string类型共有的属性
 }
 // 而有时候，我确实需要在还不确定类型的时候，去访问它的属性或方法，比如：
@@ -528,7 +528,7 @@ function getLength2(something: number | string): number {
 }
 // 类型断言的用法如上，在需要断言的变量前加上<类型>
 // 注意！类型断言不是类型转换，因此断言成一个联合类型中不存在的类型是不允许的，会报错：
-function error1(something: number | string): number | string {
+function error1(something: number | string): boolean {
 	return <boolean>something; // 报错
 }
 
@@ -924,7 +924,7 @@ var directions6 = [0 /* Up */, 1 /* Down */, 2 /* Left */, 3 /* Right */];
 // 通过new生成新实例的时候，会自动调用构造函数
 class Animal {
 	constructor(name){
-		this.name = name; // (这里的报错原因估计是ts强制类中必须声明作用域中已使用的变量，并且在这里ts用类型推论name的类型为any)
+		this.name = name; // (这里的报错原因：ts强制类中必须声明作用域中已使用的变量)
 	}
 	sayHi(){
 		return `My name is ${this.name}`;
@@ -937,7 +937,7 @@ console.log(someAnimal.sayHi()); // My name is Jack
 class Cat extends Animal {
 	constructor(name){
 		super(name); // 调用父类的constructor(name)
-		console.log(this.name); // (同926行报错一样)
+		console.log(this.name); // (同上方报错一样)
 	}
 	sayHi(){
 		return 'Meow, ' + super.sayHi(); // 调用父类的sayHi()
